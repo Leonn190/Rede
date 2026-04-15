@@ -2,7 +2,8 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-estado = {"status": "run"}
+# começa ligado
+estado = {"status": "on"}
 
 @app.route("/")
 def home():
@@ -15,8 +16,10 @@ def get_status():
 @app.route("/set", methods=["POST"])
 def set_status():
     data = request.json
-    if "status" in data:
+
+    if "status" in data and data["status"] in ["on", "off"]:
         estado["status"] = data["status"]
+
     return jsonify(estado)
 
 if __name__ == "__main__":
